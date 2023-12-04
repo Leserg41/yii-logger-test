@@ -28,7 +28,7 @@ class Logger extends \yii\base\Module implements LoggerInterface
 
     public function __construct($config = [])
     {
-        $this->type = $config['type'];
+        $this->type = isset($config['type']) ? $config['type'] : self::FILE_TYPE;
         $this->init();
     }
 
@@ -39,7 +39,7 @@ class Logger extends \yii\base\Module implements LoggerInterface
     {
         parent::init();
 
-        $this->setType(self::FILE_TYPE);
+        $this->setType($this->type);
     }
 
     public function send(string $message): void
@@ -92,7 +92,7 @@ class Logger extends \yii\base\Module implements LoggerInterface
             $this->target = new DbTarget();
         }
 
-        if ($type == self::DB_TYPE) 
+        if ($type == self::EMAIL_TYPE) 
         {
             $this->target = new EmailTarget();
         }
